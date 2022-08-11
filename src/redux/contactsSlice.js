@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
+import storage from 'redux-persist/lib/storage';
 
 const data = [
   { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },

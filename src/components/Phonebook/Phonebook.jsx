@@ -1,10 +1,15 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from 'nanoid';
 import { Label, Input, Submit } from './Phonebook.styled';
+import { itemAdd, getContacts } from 'redux/contactsSlice';
 
-export default function Phonebook({ onFormSubmit }) {
+export default function Phonebook() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+
+  const contacts = useSelector(getContacts);
+  const dispatch = useDispatch();
 
   const nameInputId = nanoid();
   const numberInputId = nanoid();
@@ -29,10 +34,26 @@ export default function Phonebook({ onFormSubmit }) {
     setNumber('');
   };
   const handleSubmit = e => {
-    const data = { name, number };
     e.preventDefault();
-    onFormSubmit(data);
-    reset();
+    if (
+      contacts.find(
+        contact => contact.name.toLowerCase() === name.toLowerCase()
+      )
+    ) {
+      alert(`${name} is already in contacts`);
+    } else if (contacts.find(contact => contact.number === number)) {
+      alert(
+        `this number: ${number} is in, you dont want to add one more time.`
+      );
+    } else {
+      const contact = {
+        name: name,
+        number: number,
+        id: nanoid(),
+      };
+      dispatch(itemAdd(contact));
+      reset();
+    }
   };
 
   return (

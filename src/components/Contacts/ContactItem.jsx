@@ -8,7 +8,7 @@ function ContactItem({ name, id, number }) {
   const onDeleteContact = () => dispatch(itemDelete(id));
 
   return (
-    <Item key={id}>
+    <Item>
       {name}: {number}
       <Delete type="button" onClick={onDeleteContact}>
         Delete

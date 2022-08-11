@@ -1,7 +1,21 @@
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import ContactItem from './ContactItem';
+import { getFiltred, getContacts } from 'redux/contactsSlice';
 
-function Contacts({ data }) {
+function Contacts() {
+  const contacts = useSelector(getContacts);
+  const value = useSelector(getFiltred);
+
+  const getFiltredContacts = () => {
+    const normalizedFilter = value.toLowerCase().trim();
+
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(normalizedFilter)
+    );
+  };
+
+  const data = getFiltredContacts();
+
   return (
     <ul>
       {data.map(contact => {
@@ -18,13 +32,4 @@ function Contacts({ data }) {
   );
 }
 
-Contacts.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      id: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    })
-  ),
-};
 export default Contacts;
